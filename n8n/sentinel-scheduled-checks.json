@@ -1,0 +1,78 @@
+{
+  "id": "sentinel-scheduled-checks",
+  "name": "Sentinel scheduled checks",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "seconds", "secondsInterval": 10 }]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/api/monitors",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "get-monitors",
+      "name": "GET monitors",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const payload = items[0] ? items[0].json : {};\nconst monitors = Array.isArray(payload.monitors) ? payload.monitors : [];\nreturn monitors\n  .filter((monitor) => {\n    if (!monitor || monitor.enabled !== true) {\n      return false;\n    }\n    // Gmail monitors are event-driven. Only website monitors are scheduled.\n    return monitor.kind !== 'gmail';\n  })\n  .map((monitor) => ({ json: monitor }));\n"
+      },
+      "id": "enabled-monitors",
+      "name": "Enabled monitors",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/api/monitors/{{ $json.id }}/check",
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "id": "check-monitor",
+      "name": "POST check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 0],
+      "continueOnFail": true,
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [[{ "node": "GET monitors", "type": "main", "index": 0 }]]
+    },
+    "GET monitors": {
+      "main": [[{ "node": "Enabled monitors", "type": "main", "index": 0 }]]
+    },
+    "Enabled monitors": {
+      "main": [[{ "node": "POST check", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "UTC"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

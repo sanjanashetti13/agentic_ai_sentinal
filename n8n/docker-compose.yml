@@ -1,0 +1,21 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_SECURE_COOKIE=false
+      - GENERIC_TIMEZONE=UTC
+      - TZ=UTC
+      - N8N_HIRING_BANNER_ENABLED=false
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./sentinel-scheduled-checks.json:/home/node/sentinel-scheduled-checks.json:ro
+
+volumes:
+  n8n_data:

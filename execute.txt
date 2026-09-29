@@ -1,0 +1,24 @@
+Start the dummy demo page in a new terminal:
+
+cd C:\KLE\KLE_Projects\Sentinal\backend
+.\.venv\Scripts\python.exe run.py demo serve
+Then open it in the browser:
+
+http://127.0.0.1:8765/
+
+Manual run (create a monitor, do not click Check now)
+
+cd C:\KLE\KLE_Projects\Sentinal\backend
+.\start.ps1
+
+
+cd C:\KLE\KLE_Projects\Sentinal\n8n
+docker compose up -d
+
+
+cd C:\KLE\KLE_Projects\Sentinal\frontend
+npm run dev
+Then open http://localhost:5173, create an enabled monitor for https://example.com, wait ~10–20 seconds, and confirm it goes from Waiting for scheduled check → Baseline.
+
+http://localhost:5173
+http://localhost:8765

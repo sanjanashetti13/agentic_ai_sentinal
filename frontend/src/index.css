@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Source Sans 3", "Nirmala UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cinzel", "Palatino Linotype", Palatino, serif;
+  --color-success: #3d9b78;
+  --color-warning: #d4a017;
+}
+
+@font-face {
+  font-family: "Nirmala UI";
+  src: local("Nirmala UI"), local("NirmalaUI");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nirmala UI";
+  src: local("Nirmala UI Bold"), local("NirmalaUI-Bold");
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  background-color: #1a0f08;
+  line-height: 1.45;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:root {
+  --font-display: "Cinzel", "Palatino Linotype", Palatino, serif;
+  --font-sans: "Source Sans 3", "Nirmala UI", ui-sans-serif, system-ui, sans-serif;
+  --ivory: #f4ead2;
+  --gold: #d4af5a;
+  --gold-soft: rgba(210, 170, 90, 0.45);
+  --navy: #0a1423;
+  --teal: #1a3d42;
+  --bg: transparent;
+  --surface: rgba(10, 20, 35, 0.55);
+  --surface-strong: rgba(10, 20, 35, 0.72);
+  --text: #f3ead8;
+  --muted: #b7c0cc;
+  --border: rgba(210, 170, 90, 0.45);
+  --border-strong: rgba(228, 199, 122, 0.7);
+  --accent: #d4af5a;
+  --accent-hover: #e4c77a;
+  --accent-dim: rgba(212, 175, 90, 0.16);
+  --changed: #d4a017;
+  --changed-bg: rgba(212, 160, 23, 0.16);
+  --ok: #3d9b78;
+  --ok-bg: rgba(61, 155, 120, 0.16);
+  --danger: #a44a4a;
+  --danger-bg: rgba(80, 18, 24, 0.42);
+  --baseline: #6eb4c8;
+  --radius: 14px;
+  --glass-blur: 14px;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --inset: inset 0 1px 0 rgba(244, 234, 210, 0.12);
+}
+
